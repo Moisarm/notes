@@ -14,14 +14,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String   @id @default(uuid())
+  username    String   @unique
+  password    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
   
-  notes     Note[]
-  
+  notes       Note[]
+  tags        Tag[]
   @@map("users")
 }
 
@@ -29,36 +29,38 @@ model Note {
   id          String   @id @default(uuid())
   title       String
   content     String
-  isArchived  Boolean  @default(false) @map("is_archived")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  is_archived Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
   
-  userId      String   @map("user_id")
-  user        User     @relation(fields: [userId], references: [id])
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
   
-  noteTags NoteTag[]
-  
+  note_tags   Note_Tag[]
+
   @@map("notes")
 }
 
 model Tag {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-  
-  noteTags NoteTag[]
-  
+  id          String   @id @default(uuid())
+  name        String   @unique
+  created_at  DateTime @default(now())
+  user_id     String   
+  user        User     @relation(fields: [user_id], references: [id])
+
+  note_tags   Note_Tag[]
+  @@unique([name, user_id])
   @@map("tags")
 }
 
-model NoteTag {
-  noteId   String   @map("note_id")
-  tagId    String   @map("tag_id")
-  createdAt DateTime @default(now()) @map("created_at")
+model Note_Tag {
+  note_id     String
+  tag_id      String
+  created_at  DateTime @default(now())
   
-  note Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
-  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  
-  @@id([noteId, tagId])
+  note        Note     @relation(fields: [note_id], references: [id], onDelete: Cascade)
+  tag         Tag      @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+
+  @@id([note_id, tag_id])
   @@map("note_tags")
 }
