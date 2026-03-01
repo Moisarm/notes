@@ -1,13 +1,15 @@
 export interface create_note_dto {
-  user_id: string;
   title: string;
   content: string;
-  categories_id: string[];
+  tag_ids?: string[];
+  user_id: string;
 }
 
 export interface update_note_dto {
+  id: string;
   title?: string;
   content?: string;
+  tag_ids?: string[];
 }
 
 export interface note_filter {
