@@ -71,7 +71,7 @@ note_router.put(
     try {
       const token = req.cookies["Access-Token"];
       const note_id = req.params.id;
-      const data: update_note_dto = req.body;
+      const data: update_note_dto = { ...req.body, id: note_id };
 
       const response = await controller.update(token, data);
       res.status(response.status).json(response);

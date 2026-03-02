@@ -6,7 +6,6 @@ declare module "express-serve-static-core" {
     user?: {
       user_id: string;
       username: string;
-      email: string;
     };
   }
 }
@@ -24,10 +23,10 @@ export const verify = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const data = verify_token(token);
-
     req.user = data;
+    next();
   } catch (error) {
-    console.error("Error en validacion de token:");
+    console.error("Error en validacion de token:", error);
 
     return res.status(401).json({
       status: 401,
@@ -35,6 +34,4 @@ export const verify = (req: Request, res: Response, next: NextFunction) => {
       error: "Unauthorized",
     });
   }
-
-  next();
 };

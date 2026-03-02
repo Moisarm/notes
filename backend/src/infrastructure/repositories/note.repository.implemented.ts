@@ -33,7 +33,12 @@ export class note_repository_implemented implements note_repository {
       },
     });
 
-    return new_note as unknown as note;
+    const transformed = {
+      ...new_note,
+      tags: new_note.note_tags.map((nt: any) => nt.tag),
+    };
+
+    return transformed as unknown as note;
   }
 
   async update_note(data: update_note_dto): Promise<note> {
@@ -67,7 +72,12 @@ export class note_repository_implemented implements note_repository {
       },
     });
 
-    return updated_note as unknown as note;
+    const transformed = {
+      ...updated_note,
+      tags: updated_note.note_tags.map((nt: any) => nt.tag),
+    };
+
+    return transformed as unknown as note;
   }
 
   async find_all(
@@ -110,8 +120,13 @@ export class note_repository_implemented implements note_repository {
       }),
     ]);
 
+    const transformed_notes = notes.map((note: any) => ({
+      ...note,
+      tags: note.note_tags.map((nt: any) => nt.tag),
+    }));
+
     return {
-      data: notes as unknown as note[],
+      data: transformed_notes as unknown as note[],
       pagination: {
         total,
         page,
@@ -133,7 +148,15 @@ export class note_repository_implemented implements note_repository {
         },
       },
     });
-    return note as unknown as note;
+    
+    if (!note) return null;
+
+    const transformed = {
+      ...note,
+      tags: note.note_tags.map((nt: any) => nt.tag),
+    };
+
+    return transformed as unknown as note;
   }
 
   async toggle_note_state(note: note): Promise<note> {
@@ -150,7 +173,12 @@ export class note_repository_implemented implements note_repository {
       },
     });
 
-    return toggled_note as unknown as note;
+    const transformed = {
+      ...toggled_note,
+      tags: toggled_note.note_tags.map((nt: any) => nt.tag),
+    };
+
+    return transformed as unknown as note;
   }
 
   async delete_note(note_id: string): Promise<void> {

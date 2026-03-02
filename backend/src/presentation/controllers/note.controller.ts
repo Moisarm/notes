@@ -57,7 +57,13 @@ export class note_controller {
       return {
         status: 200,
         message: "Notes retrieved successfully",
-        data: result.data,
+        data: {
+          items: result.data.data,
+          page: result.data.pagination.page,
+          limit: result.data.pagination.limit,
+          total: result.data.pagination.total,
+          total_pages: result.data.pagination.total_pages,
+        },
       };
     } catch (error) {
       throw error;
