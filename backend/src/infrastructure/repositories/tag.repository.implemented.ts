@@ -9,15 +9,19 @@ import { prisma } from "../config/database/prisma.config";
 
 export class tag_repository_implemented implements tag_repository {
   async find_all(
+    user_id: string,
     pagination?: pagination,
   ): Promise<{ data: tag[]; pagination: paginated_result }> {
     const page = pagination?.page || 1;
     const limit = pagination?.limit || 10;
     const skip = (page - 1) * limit;
 
+    const where = { user_id };
+
     const [total, tags] = await Promise.all([
-      prisma.tag.count(),
+      prisma.tag.count({ where }),
       prisma.tag.findMany({
+        where,
         include: {
           note_tags: {
             include: { note: true },

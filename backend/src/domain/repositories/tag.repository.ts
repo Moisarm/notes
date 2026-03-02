@@ -7,7 +7,8 @@ import type { tag } from "../entities/tag.entity";
 
 export interface tag_repository {
   find_all(
-    pagination: pagination,
+    user_id: string,
+    pagination?: pagination,
   ): Promise<{ data: tag[]; pagination: paginated_result }>;
   find_by_id(id: string): Promise<tag | null>;
   find_by_name(tag: tag_dto): Promise<tag | null>;

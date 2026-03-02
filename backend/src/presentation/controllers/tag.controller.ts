@@ -11,10 +11,10 @@ export class tag_controller {
     this.tag_repository = tag_repository_injection;
   }
 
-  async get_all(pagination: pagination) {
+  async get_all(token: string, pagination: pagination) {
     try {
       const use_case = new get_tags_use_case(this.tag_repository);
-      const result = await use_case.run(pagination);
+      const result = await use_case.run(token, pagination);
 
       if (!result.success) {
         return {
@@ -27,17 +27,23 @@ export class tag_controller {
       return {
         status: 200,
         message: "Tags retrieved successfully",
-        data: result.data,
+        data: {
+          items: result.data.data,
+          page: result.data.pagination.page,
+          limit: result.data.pagination.limit,
+          total: result.data.pagination.total,
+          total_pages: result.data.pagination.total_pages,
+        },
       };
     } catch (error) {
       throw error;
     }
   }
 
-  async create(name: string) {
+  async create(token: string, name: string) {
     try {
       const use_case = new create_tag_use_case(this.tag_repository);
-      const result = await use_case.run(name);
+      const result = await use_case.run(token, name);
 
       if (!result.success) {
         return {

@@ -12,14 +12,15 @@ const tag_repository = new tag_repository_implemented();
 const controller = new tag_controller(tag_repository);
 
 // Get all tags
-tag_router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+tag_router.get("/", verify, async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const token = req.cookies["Access-Token"];
     const pagination = {
       page: parseInt(req.query.page as string) || 1,
       limit: parseInt(req.query.limit as string) || 10,
     };
 
-    const response = await controller.get_all(pagination);
+    const response = await controller.get_all(token, pagination);
     res.status(response.status).json(response);
   } catch (error) {
     next(error);
@@ -32,6 +33,7 @@ tag_router.post(
   verify,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const token = req.cookies["Access-Token"];
       const { name } = req.body;
 
       if (!name || typeof name !== "string") {
@@ -42,7 +44,7 @@ tag_router.post(
         });
       }
 
-      const response = await controller.create(name);
+      const response = await controller.create(token, name);
       res.status(response.status).json(response);
     } catch (error) {
       next(error);
