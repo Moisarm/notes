@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch index.ts"
+    "dev": "bun --watch index.ts",
+    "build": "../start.sh"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
