@@ -11,7 +11,6 @@ export class generate_token_service {
     const token = Token({
       user_id: user_data.id,
       username: user_data.username,
-      email: user_data.email,
     });
 
     if (!token) {

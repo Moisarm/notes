@@ -4,7 +4,6 @@ import { config } from "../../config/server/variables.config";
 interface payload {
   user_id: string;
   username: string;
-  email: string;
 }
 
 export const Token = (payload: payload) => {
