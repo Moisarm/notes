@@ -12,20 +12,24 @@ const tag_repository = new tag_repository_implemented();
 const controller = new tag_controller(tag_repository);
 
 // Get all tags
-tag_router.get("/", verify, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const token = req.cookies["Access-Token"];
-    const pagination = {
-      page: parseInt(req.query.page as string) || 1,
-      limit: parseInt(req.query.limit as string) || 10,
-    };
+tag_router.get(
+  "/",
+  verify,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = req.cookies["Access-Token"];
+      const pagination = {
+        page: parseInt(req.query.page as string) || 1,
+        limit: parseInt(req.query.limit as string) || 10,
+      };
 
-    const response = await controller.get_all(token, pagination);
-    res.status(response.status).json(response);
-  } catch (error) {
-    next(error);
-  }
-});
+      const response = await controller.get_all(token, pagination);
+      res.status(response.status).json(response);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 // Create tag
 tag_router.post(
@@ -58,7 +62,7 @@ tag_router.delete(
   verify,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const tag_id = req.params.id;
+      const tag_id = String(req.params.id);
 
       const response = await controller.delete(tag_id);
       res.status(response.status).json(response);
