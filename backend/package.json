@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch index.ts",
-    "build": "../start.sh"
+    "build": "./start-backend.sh"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
