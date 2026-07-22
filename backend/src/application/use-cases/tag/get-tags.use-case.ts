@@ -15,12 +15,13 @@ export class get_tags_use_case {
   async run(token: string, pagination: pagination) {
     try {
       const decoded = this.decode_token_service.run(token);
-      const tags = await this.tag_repository.find_all(decoded.user_id, pagination);
+      const tags = await this.tag_repository.find_all(
+        decoded.user_id,
+        pagination,
+      );
       return success(tags);
     } catch (error) {
-      return failure(
-        error instanceof Error ? error.message : "Error retrieving messages",
-      );
+      return failure("Error retrieving messages by tag");
     }
   }
 }

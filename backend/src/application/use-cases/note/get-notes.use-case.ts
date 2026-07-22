@@ -24,9 +24,7 @@ export class get_notes_use_case {
 
       return success(notes);
     } catch (error) {
-      return failure(
-        error instanceof Error ? error.message : "Failed to get notes",
-      );
+      return failure("Failed to get notes");
     }
   }
 }
