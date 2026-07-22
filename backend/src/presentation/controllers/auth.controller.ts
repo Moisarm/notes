@@ -77,7 +77,12 @@ export class auth_controller {
     try {
       const response = await update.run(token, update_user_data);
       if (!response.success) {
-        return response.error;
+        const err = response.error as any;
+        return {
+          status: err?.status || 400,
+          message: err?.message || err || "Update failed",
+          error: err?.error || "Bad Request",
+        };
       }
 
       return {

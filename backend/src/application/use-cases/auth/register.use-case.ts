@@ -45,7 +45,7 @@ export class register_use_case {
 
     let response = {
       user: new_user,
-      token: token,
+      token: token.data,
     };
     return success(response);
   }

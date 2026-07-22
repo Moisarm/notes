@@ -32,6 +32,18 @@ export class update_user_use_case {
         };
         return failure(fail);
       }
+      if (update_user_data.username) {
+        const existing = await this.auth_repository.find_user_by_username(
+          update_user_data.username,
+        );
+        if (existing && existing.id !== decoded_token.user_id) {
+          return failure({
+            status: 400,
+            message: "Username already taken",
+            error: "Bad Request",
+          });
+        }
+      }
       if (update_user_data.password) {
         const user_password = await this.compare_password_service.run(
           update_user_data.password,
@@ -65,7 +77,11 @@ export class update_user_use_case {
       );
       return success(updated_user);
     } catch (error) {
-      throw error;
+      return failure({
+        status: 500,
+        message: error instanceof Error ? error.message : "Update failed",
+        error: "Internal Server Error",
+      });
     }
   }
 }

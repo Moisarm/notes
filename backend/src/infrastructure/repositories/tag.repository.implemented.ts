@@ -59,7 +59,7 @@ export class tag_repository_implemented implements tag_repository {
   }
 
   async find_by_name(tag: tag_dto): Promise<tag | null> {
-    const found_tag = await prisma.tag.findUnique({
+    const found_tag = await prisma.tag.findFirst({
       where: {
         name: tag.name,
         user_id: tag.user_id,
