@@ -42,8 +42,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "buildCommand": "cd frontend && npm run build",
-  "installCommand": "cd frontend && npm install && cd ../backend && bun install",
-  "outputDirectory": "frontend/dist"
+  }
 }
