@@ -1,6 +1,6 @@
 const allowed_origins = [
   "https://notes-6auc.onrender.com",
-  "https://notes-flame-gamma.vercel.app/",
+  "https://notes-flame-gamma.vercel.app",
   "http://localhost:5173",
 ];
 
